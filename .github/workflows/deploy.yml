@@ -1,0 +1,29 @@
+name: Deploy Seven Cross Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to AWS EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/sevencrossartsandsportsclub
+            git pull origin main
+            sudo docker build -t seven-cross-club .
+            sudo docker stop seven-cross-website || true
+            sudo docker rm seven-cross-website || true
+            sudo docker run -d \
+              --name seven-cross-website \
+              --network web \
+              --restart unless-stopped \
+              seven-cross-club
