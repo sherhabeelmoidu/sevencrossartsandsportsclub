@@ -34,3 +34,6 @@ membershipLink.addEventListener("click", event => {
     alert("Add your Google Form link in script.js to activate membership registration.");
   }
 });
+function closeWelcome() {
+    document.getElementById("welcomePopup").style.display = "none";
+}
