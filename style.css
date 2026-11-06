@@ -119,122 +119,399 @@ footer{padding-inline:var(--page-pad)}
         transform: scale(1);
     }
 }
-.weather-section {
-  padding: 50px 20px;
-  background: #f5f0df;
+/* ==========================================
+   SEVEN CROSS LIVE DASHBOARD
+========================================== */
+
+.live-dashboard {
+  background: #173e2f;
+  color: #f4f2e9;
+  position: relative;
+  overflow: hidden;
 }
 
-.weather-card {
-  max-width: 900px;
-  margin: auto;
-  padding: 30px;
-  border-radius: 24px;
-  background: #123b2a;
-  color: #fff;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+.live-heading {
+  align-items: end;
 }
 
-.weather-header {
+.live-heading .section-label {
+  color: #e9b849;
+}
+
+.live-heading h2 {
+  color: #f4f2e9;
+}
+
+.live-heading h2 span {
+  color: #e9b849;
+}
+
+.live-heading > p {
+  color: #c8d4cb;
+}
+
+.live-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 14px;
+}
+
+.live-grid article {
+  min-height: 315px;
+  padding: 24px;
+  background: #102f23;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* WEATHER */
+
+.live-weather {
+  background: linear-gradient(
+    135deg,
+    #143d2c,
+    #0d2b20
+  ) !important;
+}
+
+.live-card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
-.weather-label {
-  color: #e8b923;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
+.live-pill {
+  font-size: 8px;
+  letter-spacing: 1.8px;
+  font-weight: 800;
+  color: #e9b849;
 }
 
-.weather-header h2 {
-  margin: 8px 0 5px;
-  font-size: 28px;
+.live-pill i,
+.pulse-status i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e9b849;
+  margin-right: 6px;
+  box-shadow: 0 0 0 4px rgba(233, 184, 73, 0.14);
 }
 
-.weather-header p {
-  margin: 0;
-  opacity: 0.8;
+.live-location,
+.event-status {
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  opacity: 0.65;
+}
+
+.weather-main-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 42px 0 28px;
+}
+
+.temperature {
+  font-size: clamp(52px, 5vw, 70px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+}
+
+.weather-condition {
+  margin-top: 9px;
+  font-size: 13px;
+  color: #cdd9d0;
 }
 
 .weather-icon {
-  font-size: 55px;
+  font-size: 62px;
 }
 
-.weather-main {
-  margin: 30px 0;
-}
-
-#temperature {
-  font-size: 58px;
-  font-weight: 800;
-}
-
-#weather-condition {
-  font-size: 18px;
-  margin-top: 5px;
-}
-
-.weather-details {
+.weather-metrics {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  gap: 8px;
 }
 
-.weather-details div {
-  background: rgba(255, 255, 255, 0.08);
-  padding: 18px;
-  border-radius: 16px;
+.weather-metrics div {
+  padding: 12px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
   text-align: center;
+  background: rgba(255, 255, 255, 0.035);
 }
 
-.weather-details span {
+.weather-metrics span {
   display: block;
-  font-size: 22px;
-  margin-bottom: 8px;
+  font-size: 15px;
+  margin-bottom: 4px;
 }
 
-.weather-details strong {
+.weather-metrics strong {
   display: block;
-  font-size: 18px;
+  font-size: 13px;
 }
 
-.weather-details small {
+.weather-metrics small {
   display: block;
-  margin-top: 5px;
-  opacity: 0.7;
+  margin-top: 4px;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #aebdb2;
 }
 
 .weather-updated {
-  margin-top: 20px;
-  font-size: 12px;
-  opacity: 0.6;
-  text-align: right;
+  font-size: 8px;
+  color: #9fb1a5;
+  margin: 15px 0 0;
 }
 
-@media (max-width: 600px) {
-  .weather-card {
-    padding: 22px;
+/* NEXT EVENT */
+
+.live-event {
+  background: #e8b746 !important;
+  color: #173e2f;
+}
+
+.gold-pill {
+  color: #173e2f;
+  background: #fff1bf;
+  padding: 7px 9px;
+}
+
+.event-live-body {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-top: 45px;
+}
+
+.event-live-date {
+  width: 70px;
+  height: 78px;
+  background: #173e2f;
+  color: #e9b849;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.event-live-date span {
+  font-size: 31px;
+  font-weight: 800;
+}
+
+.event-live-date small {
+  font-size: 7px;
+  letter-spacing: 2px;
+}
+
+.event-tag {
+  font-size: 8px;
+  letter-spacing: 1.7px;
+  font-weight: 800;
+  color: #7d6122;
+}
+
+.event-live-body h3 {
+  font-size: 21px;
+  line-height: 1.1;
+  margin: 8px 0;
+}
+
+.event-live-body p {
+  font-size: 10px;
+  line-height: 1.7;
+  color: #566044;
+  margin: 0;
+}
+
+/* COUNTDOWN */
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  margin-top: 30px;
+}
+
+.countdown div {
+  background: rgba(23, 62, 47, 0.09);
+  padding: 10px 5px;
+  text-align: center;
+}
+
+.countdown strong {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.countdown small {
+  font-size: 6px;
+  letter-spacing: 1.3px;
+  font-weight: 800;
+  opacity: 0.65;
+}
+
+/* CLUB PULSE */
+
+.live-status {
+  background: #f4f2e9 !important;
+  color: #173e2f;
+}
+
+.pulse-status {
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+  color: #53705e;
+}
+
+.pulse-status i {
+  background: #4f9a68;
+  box-shadow: 0 0 0 4px rgba(79, 154, 104, 0.14);
+}
+
+.pulse-content {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  margin-top: 50px;
+}
+
+.pulse-icon {
+  width: 48px;
+  height: 48px;
+  background: #173e2f;
+  color: #e9b849;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  flex-shrink: 0;
+}
+
+.pulse-content h3 {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+.pulse-content p {
+  font-size: 11px;
+  line-height: 1.8;
+  color: #64776b;
+  margin: 0;
+}
+
+.live-cta {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  border-top: 1px solid rgba(23, 62, 47, 0.12);
+  padding-top: 14px;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.live-cta span {
+  float: right;
+  color: #a47a25;
+}
+
+/* TICKER */
+
+.live-ticker {
+  margin-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 15px 0;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.live-ticker span {
+  font-size: 7px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  color: #e9b849;
+  white-space: nowrap;
+}
+
+.live-ticker p {
+  margin: 0;
+  font-size: 10px;
+  color: #cbd5cd;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+  .live-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
-  .weather-header h2 {
-    font-size: 23px;
+  .live-status {
+    grid-column: span 2;
   }
 
-  #temperature {
-    font-size: 46px;
+}
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+  .live-dashboard {
+    padding-top: 75px;
+    padding-bottom: 75px;
   }
 
-  .weather-details {
+  .live-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .live-status {
+    grid-column: auto;
+  }
+
+  .live-grid article {
+    min-height: 285px;
+    padding: 20px;
+  }
+
+  .weather-main-row {
+    margin: 34px 0 23px;
+  }
+
+  .temperature {
+    font-size: 52px;
+  }
+
+  .weather-icon {
+    font-size: 52px;
+  }
+
+  .event-live-body {
+    margin-top: 34px;
+  }
+
+  .live-ticker {
+    align-items: flex-start;
+    flex-direction: column;
     gap: 8px;
   }
 
-  .weather-details div {
-    padding: 12px 5px;
+  .live-ticker p {
+    line-height: 1.6;
   }
 
-  .weather-details strong {
-    font-size: 15px;
-  }
 }

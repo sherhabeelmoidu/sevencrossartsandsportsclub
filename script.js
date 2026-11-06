@@ -37,135 +37,278 @@ membershipLink.addEventListener("click", event => {
 function closeWelcome() {
     document.getElementById("welcomePopup").style.display = "none";
 }
-async function loadKinalurWeather() {
-  const latitude = 11.46667;
-  const longitude = 75.83333;
+/* ==========================================
+   KINALUR LIVE WEATHER
+   Open-Meteo API
+========================================== */
 
-  const apiUrl =
+const KINALUR_LAT = 11.46667;
+const KINALUR_LON = 75.83333;
+
+
+function weatherDescription(code) {
+
+  if (code === 0) {
+    return ["Clear sky", "☀️"];
+  }
+
+  if ([1, 2, 3].includes(code)) {
+    return ["Partly cloudy", "⛅"];
+  }
+
+  if ([45, 48].includes(code)) {
+    return ["Foggy", "🌫️"];
+  }
+
+  if ([51, 53, 55, 56, 57].includes(code)) {
+    return ["Drizzle", "🌦️"];
+  }
+
+  if ([61, 63, 65, 66, 67].includes(code)) {
+    return ["Rain", "🌧️"];
+  }
+
+  if ([71, 73, 75, 77].includes(code)) {
+    return ["Snow", "❄️"];
+  }
+
+  if ([80, 81, 82].includes(code)) {
+    return ["Rain showers", "🌦️"];
+  }
+
+  if ([95, 96, 99].includes(code)) {
+    return ["Thunderstorm", "⛈️"];
+  }
+
+  return ["Weather update", "🌤️"];
+}
+
+
+async function loadKinalurWeather() {
+
+  const api =
     `https://api.open-meteo.com/v1/forecast` +
-    `?latitude=${latitude}` +
-    `&longitude=${longitude}` +
+    `?latitude=${KINALUR_LAT}` +
+    `&longitude=${KINALUR_LON}` +
     `&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m` +
     `&daily=precipitation_probability_max` +
     `&timezone=Asia%2FKolkata`;
 
+
   try {
-    const response = await fetch(apiUrl);
+
+    const response = await fetch(api);
 
     if (!response.ok) {
       throw new Error("Weather API request failed");
     }
 
+
     const data = await response.json();
 
     const current = data.current;
-    const daily = data.daily;
+
+    const rainChance =
+      data.daily?.precipitation_probability_max?.[0] ?? 0;
+
+
+    const [description, icon] =
+      weatherDescription(current.weather_code);
+
 
     document.getElementById("temperature").textContent =
       `${Math.round(current.temperature_2m)}°C`;
 
+
+    document.getElementById("weather-condition").textContent =
+      description;
+
+
+    document.getElementById("weather-icon").textContent =
+      icon;
+
+
     document.getElementById("humidity").textContent =
       `${current.relative_humidity_2m}%`;
+
 
     document.getElementById("wind").textContent =
       `${Math.round(current.wind_speed_10m)} km/h`;
 
+
     document.getElementById("rain").textContent =
-      `${daily.precipitation_probability_max[0]}%`;
+      `${rainChance}%`;
 
-    const weather = getWeatherDescription(current.weather_code);
 
-    document.getElementById("weather-condition").textContent =
-      weather.description;
+    const updated =
+      new Date(current.time);
 
-    document.getElementById("weather-icon").textContent =
-      weather.icon;
-
-    const updateTime = new Date(current.time);
 
     document.getElementById("weather-updated").textContent =
-      `Updated ${updateTime.toLocaleTimeString("en-IN", {
+      `Kinalur · Updated ${updated.toLocaleTimeString("en-IN", {
         hour: "2-digit",
         minute: "2-digit"
       })}`;
-  } catch (error) {
-    console.error("Weather error:", error);
+
+  }
+
+
+  catch (error) {
+
+    console.error("Kinalur weather error:", error);
 
     document.getElementById("weather-condition").textContent =
-      "Weather unavailable";
+      "Weather temporarily unavailable";
+
 
     document.getElementById("weather-updated").textContent =
-      "Unable to load weather data";
+      "Please refresh the page to try again";
+
   }
+
 }
 
 
-function getWeatherDescription(code) {
-  if (code === 0) {
-    return {
-      description: "Clear sky",
-      icon: "☀️"
-    };
-  }
-
-  if ([1, 2, 3].includes(code)) {
-    return {
-      description: "Partly cloudy",
-      icon: "⛅"
-    };
-  }
-
-  if ([45, 48].includes(code)) {
-    return {
-      description: "Foggy",
-      icon: "🌫️"
-    };
-  }
-
-  if ([51, 53, 55, 56, 57].includes(code)) {
-    return {
-      description: "Drizzle",
-      icon: "🌦️"
-    };
-  }
-
-  if ([61, 63, 65, 66, 67].includes(code)) {
-    return {
-      description: "Rain",
-      icon: "🌧️"
-    };
-  }
-
-  if ([71, 73, 75, 77].includes(code)) {
-    return {
-      description: "Snow",
-      icon: "❄️"
-    };
-  }
-
-  if ([80, 81, 82].includes(code)) {
-    return {
-      description: "Rain showers",
-      icon: "🌦️"
-    };
-  }
-
-  if ([95, 96, 99].includes(code)) {
-    return {
-      description: "Thunderstorm",
-      icon: "⛈️"
-    };
-  }
-
-  return {
-    description: "Unknown",
-    icon: "🌤️"
-  };
-}
-
-
-// Load weather
+/* Load weather */
 loadKinalurWeather();
 
-// Refresh every 15 minutes
-setInterval(loadKinalurWeather, 15 * 60 * 1000);
+
+/* Refresh weather every 15 minutes */
+setInterval(
+  loadKinalurWeather,
+  15 * 60 * 1000
+);
+
+
+
+/* ==========================================
+   NEXT EVENT COUNTDOWN
+========================================== */
+
+
+/*
+  IMPORTANT:
+
+  When you know the actual event date,
+  change this:
+
+  const NEXT_EVENT_DATE = "";
+
+  Example:
+
+  const NEXT_EVENT_DATE =
+    "2026-12-20T16:30:00+05:30";
+*/
+
+const NEXT_EVENT_DATE = "2026-11-16T09:00:00+05:30";
+
+
+const nextEventTitle =
+  "keralotsavam tournaments";
+
+
+function updateCountdown() {
+
+  const countdown =
+    document.getElementById("countdown");
+
+
+  if (!countdown) {
+    return;
+  }
+
+
+  /* No event date added yet */
+
+  if (!NEXT_EVENT_DATE) {
+
+    countdown.innerHTML = `
+
+      <div>
+        <strong>--</strong>
+        <small>DAYS</small>
+      </div>
+
+      <div>
+        <strong>--</strong>
+        <small>HOURS</small>
+      </div>
+
+      <div>
+        <strong>--</strong>
+        <small>MIN</small>
+      </div>
+
+      <div>
+        <strong>--</strong>
+        <small>SEC</small>
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  const target =
+    new Date(NEXT_EVENT_DATE).getTime();
+
+
+  const difference =
+    Math.max(0, target - Date.now());
+
+
+  const days =
+    Math.floor(difference / 86400000);
+
+
+  const hours =
+    Math.floor(difference / 3600000) % 24;
+
+
+  const minutes =
+    Math.floor(difference / 60000) % 60;
+
+
+  const seconds =
+    Math.floor(difference / 1000) % 60;
+
+
+  countdown.innerHTML = `
+
+    <div>
+      <strong>${String(days).padStart(2, "0")}</strong>
+      <small>DAYS</small>
+    </div>
+
+    <div>
+      <strong>${String(hours).padStart(2, "0")}</strong>
+      <small>HOURS</small>
+    </div>
+
+    <div>
+      <strong>${String(minutes).padStart(2, "0")}</strong>
+      <small>MIN</small>
+    </div>
+
+    <div>
+      <strong>${String(seconds).padStart(2, "0")}</strong>
+      <small>SEC</small>
+    </div>
+
+  `;
+
+}
+
+
+document.getElementById("next-event-title").textContent =
+  nextEventTitle;
+
+
+updateCountdown();
+
+
+setInterval(
+  updateCountdown,
+  1000
+);
